@@ -1,12 +1,19 @@
 provider "aws" {
-    region = "us-east-1"
+  region = "ap-south-1"
 }
-resource "aws_instance" "karnal" {
-count = 10
-    ami = "ami-052064a798f08f0d3"
-    instance_type = "t3.micro"
-    tags = {
-        Name = "manoj1122"
-    }
-  
+
+resource "aws_instance" "one" {
+  count = 4
+  ami = "ami-00af95fa354fdb788"
+  key_name = "manojkey"
+  vpc_security_group_ids = ["sg-05550576644c6cf14"]
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = var.instance_names[count.index]
+  }
+}
+
+variable "instance_names" {
+  default = ["jenkins", "tomcat-1", "tomcat-2", "monitoring-server"]
 }
